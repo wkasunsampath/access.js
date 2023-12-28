@@ -23,6 +23,7 @@ export type SqlConnection = {
 };
 
 export type AccessJsConfiguration = {
+  userPrimaryKey?: string;
   db: NoSqlConnection | SqlConnection;
 };
 

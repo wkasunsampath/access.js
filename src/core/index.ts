@@ -18,7 +18,10 @@ export class AccessJsCore {
         .catch((e) => {
           throw e;
         });
-      this.db = { type: this.config.db.type, queries: new NoSqlQueries() };
+      this.db = {
+        type: this.config.db.type,
+        queries: new NoSqlQueries(config.userPrimaryKey),
+      };
     } else {
       const sequelize = new Sequelize(
         this.config.db.databaseName,
@@ -39,7 +42,7 @@ export class AccessJsCore {
     }
   }
 
-  addRole = async (role: string): Promise<void> => {
-    await this.db.queries.addRole(role);
+  addRole = async (role: string) => {
+    return await this.db.queries.addRole(role);
   };
 }

@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 import { roleSchema } from '../models/noSql/role.schema';
-import type { Query } from './query-interface';
 import { permissionSchema } from '../models/noSql/permission.schema';
+import { NoSQLRole } from '../core/db-functions/role';
 
-export class NoSqlQueries implements Query {
+export class NoSqlQueries {
   private readonly role;
   private readonly permission;
-  constructor() {
+  constructor(private readonly userPrimaryKey?: string) {
     this.role = mongoose.model('Role', roleSchema);
     this.permission = mongoose.model('Permission', permissionSchema);
   }
@@ -15,8 +15,21 @@ export class NoSqlQueries implements Query {
    *
    * @description Add new role to the roles table
    */
-  addRole = async (role: string) => {
-    await this.role.create({ role });
+  addRole = async (roleName: string) => {
+    const role = await this.role.create({ role: roleName });
+    return new NoSQLRole({ role });
+  };
+
+  /**
+   *
+   * @description Find a role from the roles table
+   */
+  findRole = async (roleName: string) => {
+    const role = await this.role.findOne({ role: roleName });
+    if (role !== null) {
+      return new NoSQLRole({ role });
+    }
+    return null;
   };
 
   /**
