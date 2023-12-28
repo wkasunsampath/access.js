@@ -11,6 +11,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsc --watch",
+    "lint": "eslint src/**/*.ts --fix",
     "build": "tsc"
   },
   "repository": {

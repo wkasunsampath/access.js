@@ -5,8 +5,8 @@ import type {
 } from '../types';
 import * as mongoose from 'mongoose';
 import { Sequelize } from 'sequelize';
-import { NoSqlQueries } from '../db-queries/no-sql';
-import { SqlQueries } from '../db-queries/sql';
+import { NoSqlQueries } from '../queries/no-sql';
+import { SqlQueries } from '../queries/sql';
 
 export class AccessJsCore {
   private readonly db: NoSqlQueriesList | SqlQueriesList;

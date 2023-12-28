@@ -1,5 +1,5 @@
-import type { NoSqlQueries } from '../db-queries/no-sql';
-import type { SqlQueries } from '../db-queries/sql';
+import type { NoSqlQueries } from '../queries/no-sql';
+import type { SqlQueries } from '../queries/sql';
 
 export type NoSqlConnection = {
   type: 'mongodb';
