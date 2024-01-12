@@ -1,5 +1,5 @@
 {
-  "name": "access.js",
+  "name": "access-js",
   "version": "0.0.1",
   "description": "Role-based access control (RBAC) library for Node.js",
   "main": "./dist/index.js",
@@ -8,7 +8,6 @@
   "files": [
     "dist"
   ],
-  "type": "module",
   "scripts": {
     "dev": "tsc --watch",
     "lint": "eslint src/**/*.ts --fix",
