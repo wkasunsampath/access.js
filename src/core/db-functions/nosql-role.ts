@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import type { Document } from 'mongoose';
-import { roleSchema } from '../../models/noSql/role.schema';
 import rolePermissionsSchema from '../../models/noSql/role-permissions.schema';
 import { permissionSchema } from '../../models/noSql/permission.schema';
 import roleUserSchema from '../../models/noSql/role-users.schema';
@@ -19,7 +18,6 @@ export class NoSQLRole implements iRole {
   };
 
   private readonly userPrimaryKey;
-  private readonly roleModel;
   private readonly rolePermissionsModel;
   private readonly permissionModel;
   private readonly roleUserModel;
@@ -32,7 +30,6 @@ export class NoSQLRole implements iRole {
       };
     },
   ) {
-    this.roleModel = mongoose.model('Role', roleSchema);
     this.rolePermissionsModel = mongoose.model(
       'RolePermissions',
       rolePermissionsSchema,
@@ -56,17 +53,17 @@ export class NoSQLRole implements iRole {
 
   assignPermissions = async (permissions: string | string[]) => {
     if (Array.isArray(permissions)) {
-      await this.rolePermissionsModel.insertMany(
-        permissions.map(async (permission) => {
-          const storedPermission = await this.permissionModel.findOne({
-            permission,
-          });
-          if (storedPermission === null) {
-            throw new Error(`Permission - "${permission}" is not found`);
-          }
-          return { permission, role: this.role.role };
-        }),
-      );
+      const formattedPermissions = [];
+      for (const permission of permissions) {
+        const storedPermission = await this.permissionModel.findOne({
+          permission,
+        });
+        if (storedPermission === null) {
+          throw new Error(`Permission - "${permission}" is not found`);
+        }
+        formattedPermissions.push({ permission, role: this.role.role });
+      }
+      await this.rolePermissionsModel.insertMany(formattedPermissions);
     } else {
       const storedPermission = await this.permissionModel.findOne({
         permission: permissions,

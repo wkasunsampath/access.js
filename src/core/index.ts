@@ -146,6 +146,36 @@ export class AccessJsCore {
 
   /**
    *
+   * @description Check whether the permission has been assigned to the given user
+   */
+  hasPermission = async (
+    permission: string,
+    user: any,
+    userPrimaryKey?: string,
+  ): Promise<boolean> => {
+    const permissions = (
+      await this.db.queries.getUserPermissions(user, userPrimaryKey)
+    ).map((permission) => permission.name);
+    return permissions.includes(permission);
+  };
+
+  /**
+   *
+   * @description Check whether the permission has been assigned to the given user
+   */
+  hasAnyPermission = async (
+    permission: string[],
+    user: any,
+    userPrimaryKey?: string,
+  ): Promise<boolean> => {
+    const permissions = (
+      await this.db.queries.getUserPermissions(user, userPrimaryKey)
+    ).map((permission) => permission.name);
+    return permission.some((item) => permissions.includes(item));
+  };
+
+  /**
+   *
    * @description Find a permission has been added to the permissions list
    */
   isPermissionAvailable = async (permissionName: string): Promise<boolean> => {

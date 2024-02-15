@@ -6,7 +6,7 @@ export interface iPermission {
    *
    * @description Remove permission from the permissions table
    */
-  remove: () => {};
+  remove: () => Promise<void>;
 
   /**
    *

@@ -8,7 +8,7 @@ export interface iRole {
    *
    * @description Remove role from the roles table
    */
-  remove: () => {};
+  remove: () => Promise<void>;
 
   /**
    *
